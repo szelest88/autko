@@ -27,6 +27,7 @@ class Okno extends JFrame implements KeyListener, ActionListener
 	JLabel obroty_info;
 	JLabel przebieg_info;
 	Autko moje=new Autko();
+	int zmienna;//SVN
 	
 	public void paint(Graphics g)
 	{
