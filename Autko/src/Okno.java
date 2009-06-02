@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 
 class Okno extends JFrame implements KeyListener, ActionListener
 {
-	public boolean zapis=false;
+	public boolean zapis=true;
 	//KEY!!!!!!!!
 	JTextField typingArea = new JTextField(20);
 	
@@ -181,7 +181,7 @@ JMenuItem komp;
 		menuPlik.setMnemonic('l');
 		pasekMenu.add(menuPlik);
 		
-		przebiegPodrozy = new JMenuItem("Zapisz przebieg podró¿y");
+		przebiegPodrozy = new JMenuItem("Odczyt zapisanego przebiegu");
 		menuPlik.add(przebiegPodrozy);
 		przebiegPodrozy.addActionListener(this);
 		
@@ -261,12 +261,13 @@ JMenuItem komp;
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		if(arg0.getSource()==przebiegPodrozy){
-		//	String txt1 = JOptionPane.showInputDialog("DEBUG");
-			if(this.zapis==false)
+			
+			if(zapis==false)
 			zapis=true;
 			
 			else
-				this.zapis=false;
+				zapis=false;
+			
 		}
 	}
 

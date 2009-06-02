@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+//ping
 class PingRunnable implements Runnable{
 
 				Okno okienko=new Okno();//
@@ -18,7 +18,7 @@ class PingRunnable implements Runnable{
 				System.out.println(okienko.moje.getPredkosc());	
 				}
 				public void run() {
-					if(okienko.zapis==true)
+					if(okienko.zapis==false)
 				{
 					//ODCZYYYYYYYYT
 					String moj2;
@@ -61,6 +61,14 @@ class PingRunnable implements Runnable{
 
 					catch (IOException io)												
 					{System.out.println(io.getMessage());} 
+					//mo¿e wrzuciæ tu czyszczenie pliku?
+					okienko.moje.przebieg_jazdy=0;	
+					okienko.moje.komputer.predkosc_srednia=0;
+					okienko.moje.komputer.predkosc_maksymalna=0;
+					
+					
+					okienko.zapis=true;//hmmm
+					run();//hm :D
 					}else
 			//KONIEC ODCZYTU
 					{
@@ -68,7 +76,7 @@ class PingRunnable implements Runnable{
 					// TODO Auto-generated method stub
 					try
 					{
-						while(okienko.zapis==false)
+						while(okienko.zapis==true)
 						{
 							okienko.repaint();
 							Thread.sleep(200);
@@ -124,7 +132,6 @@ class PingRunnable implements Runnable{
 						}
 							//KONIEC ZAPISU
 							
-							//odczyt
 									
 							
 						}
@@ -134,6 +141,7 @@ class PingRunnable implements Runnable{
 						
 					}
 					}
+					run();
 				}
 
 			}
