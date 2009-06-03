@@ -35,7 +35,6 @@ class PingRunnable implements Runnable{
 						{
 						if(wart%4==1){	
 							System.out.println(moj2);
-							//okienko.moje.przebieg_jazdy=Float.parseFloat(moj2);
 							okienko.moje.setPredkosc(Float.parseFloat(moj2));
 							okienko.repaint();
 							
@@ -79,12 +78,13 @@ class PingRunnable implements Runnable{
 						while(okienko.zapis==true)
 						{
 							okienko.repaint();
-							Thread.sleep(200);
+							Thread.sleep(100);
 							
 						//	if(moj_komputer.enabled)
 					//		{
 							moj_komputer.czas+=0.1;
 							moj_komputer.dystans+=this.okienko.moje.getPredkosc()*0.1;		//jakoœ skalibrowaæ
+							if(moj_komputer.isEnabled()==true)
 							moj_komputer.predkosc_srednia=	(float) (moj_komputer.predkosc_srednia*(moj_komputer.czas-0.1)+
 															this.okienko.moje.getPredkosc()*0.1)*(1/(moj_komputer.czas));
 							if(moj_komputer.predkosc_maksymalna<this.okienko.moje.getPredkosc())
@@ -96,7 +96,7 @@ class PingRunnable implements Runnable{
 							System.out.print("PRÊDKOŒÆ: ");
 							System.out.println(this.okienko.moje.getPredkosc());
 							this.okienko.moje.przebieg_jazdy+=this.okienko.moje.getPredkosc()*0.1; 	//ten wspó³czynnik jest na czuja, trzeba bêdzie to
-									
+							this.okienko.moje.przebieg_calkowity+=this.okienko.moje.getPredkosc()*0.1;
 									System.out.print("PRZEBIEG: ");
 							System.out.println(this.okienko.moje.przebieg_jazdy);
 							
@@ -129,6 +129,23 @@ class PingRunnable implements Runnable{
 
 							catch (Exception se)
 								{System.err.println("B³¹d se");}
+							
+								//zapis przebiegu:
+							try
+							{
+							BufferedWriter pisacz2 =new BufferedWriter(new FileWriter("C:\\przebieg.txt",false));
+							String str_przeb=Float.toString(this.okienko.moje.przebieg_calkowity);
+							pisacz2.write(str_przeb);
+							pisacz2.close();
+							}
+						catch (IOException io)												
+							{System.out.println(io.getMessage());}
+
+						catch (Exception se)
+							{System.err.println("B³¹d se");}
+
+							
+							
 						}
 							//KONIEC ZAPISU
 							

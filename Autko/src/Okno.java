@@ -26,57 +26,67 @@ class Okno extends JFrame implements KeyListener, ActionListener
 	JLabel predkosc_info;
 	JLabel obroty_info;
 	JLabel przebieg_info;
+	JLabel przebieg_calkowity_info;
+	JLabel srednia_info;
+	JLabel tekst_srednia;
 	Autko moje=new Autko();
 		
 	public void paint(Graphics g)
 	{
 		//Wyœwietlamy prêdkoœæ na prêdkosciomierzu
 		float predkosc_max=200;
-		g.clearRect(390, 90, 110, 110);//hm?
+		g.clearRect(190, 90, 110, 110);//hm?
 		
 		g.setColor(Color.blue);
-		g.drawArc(390, 90, 110, 110, 180,360);
+		g.drawArc(190, 90, 110, 110, 180,360);
 		g.setColor(Color.red);
 		
 		for(int i=0;i<20;i++)
-			g.drawArc(400+i,100+i,90-2*i,90-2*i,(int)(180-180*((moje.getPredkosc())/predkosc_max)),2);
+			g.drawArc(200+i,100+i,90-2*i,90-2*i,(int)(180-180*((moje.getPredkosc())/predkosc_max)),2);
 	
 		float obroty_max=3500;
-		g.clearRect(500, 90, 110, 110);//hm?
+		g.clearRect(300, 90, 110, 110);//hm?
 		
 		g.setColor(Color.blue);
-		g.drawArc(500, 90, 110, 110, 180,360);
+		g.drawArc(300, 90, 110, 110, 180,360);
 		g.setColor(Color.red);
 	
 		
 		for(int i=0;i<20;i++)
-			g.drawArc(510+i,100+i,90-2*i,90-2*i,(int)(180-180*((moje.getObroty())/obroty_max)),2);
+			g.drawArc(310+i,100+i,90-2*i,90-2*i,(int)(180-180*((moje.getObroty())/obroty_max)),2);
 		
 		//additional
 		String tekst_predkosc="";
 		String tekst_obroty="";
 		String tekst_przebieg="";
-		
+		String tekst_przebieg_calkowity="";
 		tekst_predkosc=String.valueOf(moje.getPredkosc());
 		tekst_obroty=String.valueOf(moje.getObroty());
+		
 		tekst_przebieg=String.valueOf(moje.przebieg_jazdy);
 		
+		tekst_przebieg_calkowity = String.valueOf(moje.przebieg_calkowity);
+		//tekst_srednia.setText("Predkosc srednia:");
+		srednia_info.setText(String.valueOf(moje.komputer.predkosc_srednia));
 		predkosc_info.setText(tekst_predkosc);
 		obroty_info.setText(tekst_obroty);
 		przebieg_info.setText(tekst_przebieg);
+		przebieg_calkowity_info.setText(tekst_przebieg_calkowity);
 		
 		
 if(moje.is_kier_lewy()){
 	for(int i=0;i<3;i++)
 {
 	g.setColor(Color.red);
-	g.drawRect(450, 150, 50, 50);
+	for(int j=150;j<170;j+=4)g.drawRect(450,j,50,5);
+
 	try {
 		Thread.sleep(100);
 		} catch(InterruptedException e) {
 		}
 	g.setColor(this.getBackground()); 
-	g.drawRect(450, 150, 50, 50);
+	for(int j=150;j<170;j+=4)g.drawRect(450,j,50,5);
+
 	try {
 		Thread.sleep(100);
 		} catch(InterruptedException e) {
@@ -85,21 +95,18 @@ if(moje.is_kier_lewy()){
 	
 }
 else if(moje.is_kier_prawy()){
-	
+	 	
 	for(int i=0;i<3;i++)
 {
-	g.setColor(Color.red); 
-	g.drawRect(350, 150, 50, 5);
-	g.drawRect(350, 160, 50, 5);
-	g.drawRect(350, 170, 50, 5);
+g.setColor(Color.red);
+for(int j=150;j<170;j+=4)g.drawRect(100,j,50,5);
+
 	try {
 		Thread.sleep(100);
 		} catch(InterruptedException e) {
 		} 	
 	g.setColor(this.getBackground()); 
-	g.drawRect(350, 150, 50, 5);
-	g.drawRect(350, 160, 50, 5);
-	g.drawRect(350, 170, 50, 5);
+	for(int j=150;j<170;j+=4)g.drawRect(100,j,50,5);
 
 	try {
 		Thread.sleep(100);
@@ -245,12 +252,28 @@ JMenuItem komp;
 		
 		JLabel przebieg_et=new JLabel("Przebieg:");
 		przebieg_et.setBounds(460,280,200,20);
+
+		JLabel przebieg_calkowity_et=new JLabel("Przebieg calkowity:");
+		przebieg_calkowity_et.setBounds(100,280,200,20);
+		
+		przebieg_calkowity_info=new JLabel("Przebieg calkowity:");
+		przebieg_calkowity_info.setBounds(100,300,200,20);
+			
+		srednia_info=new JLabel("0");
+		srednia_info.setBounds(230,300,200,20);
+		
+		tekst_srednia=new JLabel("Srednia:");
+		tekst_srednia.setBounds(230,280,200,20);
+		
 		
 		przebieg_info=new JLabel("0");
 		przebieg_info.setBounds(460,300,200,20);
+		add(tekst_srednia);
+		add(srednia_info);
 		add(przebieg_et);
 		add(przebieg_info);
-		
+		add(przebieg_calkowity_et);
+		add(przebieg_calkowity_info);
 		repaint();
 		
 	}
@@ -268,6 +291,11 @@ JMenuItem komp;
 			else
 				zapis=false;
 			
+			
+		}
+		if(arg0.getSource()==komp)
+		{
+			moje.komputer.enable();
 		}
 	}
 
